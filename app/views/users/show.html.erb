@@ -1,0 +1,46 @@
+
+<%= flash["success"] %>
+<h1><%= @user.name %></h1>
+
+<p><a href="/edit/<%= @user.id%>">Edit Profile</a></p>
+
+<form action="/sessions/out" method="post">
+<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+<p><button type="submit">Log Out</button></p>
+</form>
+<form action="/secrets/create" method="post">
+<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+	<label for="new">New Secret :</label>
+<!-- 	<input id="New_secret" type="text" name="New_secret">
+ -->  <input type="date" name="New_secret">
+	<p><button type="submit">Create Secret</button></p>
+</form>
+
+<div>
+<h3>Secret</h3>
+  <% @secret.each do |secret| %>
+    <p><%= secret.content %></p>
+    <p><%= secret.likes.count %> likes</p>
+    <% if not Like.where(user_id:session[:user_id], secret_id: secret.id).exists? %>
+    <form action='/likes' method='post'>
+      <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+      <input type='hidden' name='secret_id' value='<%= secret.id %>'>
+      <input type='submit' value='Like'>
+  </form>
+  <% else %>
+   <form action='/unlikes' method='post'>
+    <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+    <input type='hidden' name='secret_id' value='<%= secret.id %>'>
+    <input type='submit' value='Unlike'>
+  </form>
+  <% end%>
+    <% if current_user == secret.user %>
+    <form action="/secrets/<%= secret.id %>" method="post">
+      <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+      <input type='hidden' name='secret_id' value='<%= secret.id %>'>
+      <input name="_method" value="delete" type="hidden">
+      <button type="submit">Delete</button>
+    </form>
+  <% end %>
+  <% end %>
+</div>

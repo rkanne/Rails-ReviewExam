@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome</title>
+    <style type="text/css">
+    #wrapper{
+    padding: 30px;
+    }
+    .register{
+  border:2px solid black;
+  width: 500px;
+  display: inline-block;
+  padding: 25px;
+  background-color: #D4D4D4;
+  }
+  .login{
+  border:2px solid black;
+  margin-left: 25px;
+  padding: 25px;
+  width: 500px;
+  display: inline-block;
+  vertical-align: top;
+  background-color: #D4D4D4;
+
+  }
+  </style>
+</head>
+<body>
+<div id="wrapper">
+<h2>Welcome!!</h2>
+<div class="register">
+<form action='/users' method='post'>
+  <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+  <p>
+    <label>Email: </label>
+    <input id="email" type="email" name="email">
+  </p>
+  <p>
+    <label>Name: </label>
+    <input id="name" type="text" name="name">
+  </p>  
+  <p>
+    <label>Password: </label>
+    <input id="password" type="password" name="password">
+  </p>
+   <p>
+    <label>Password Confirmation: </label>
+    <input id="password_confirmation" type="password" name="password_confirmation">
+  </p> 
+  <button type="submit">Join</button>
+</form>
+<p>
+  <a href="/sessions/new">Already a member?</a>
+</p>
+
+</div>
+<div class="login">
+
+<form action="/sessions/new" method="post" role="form">
+  <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+  <p>
+    <label for="email">Email: </label>
+    <input id="email" type="email" name="email">
+  </p>
+  <p>
+    <label for="password">Password: </label>
+    <input id="password" type="password" name="password">
+  </p>
+  <button type="submit">Log In</button>
+</form>
+</div>
+<p><%= flash[:errors]%></p>
+
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
